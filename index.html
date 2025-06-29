@@ -311,34 +311,58 @@
             </table>
         </div><br>
 
+        <div class="form-section">
+            <h2>2. 상권 분석 요약</h2>
+            <h3>(1) 업소 정보</h3>
+            <table>
+                <tr>
+                    <th>업소수</th>
+                    <th>전월대비 증감률</th>
+                    <th>배후지</th>
+                    <th>전월대비 증감률</th>
+                </tr>
+                <tr>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 개</span></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 개</span></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
+                </tr>
+            </table>
+
+            <h3>(2) 매출 정보</h3>
+            <table>
+                <tr>
+                    <th>월평균 매출액</th>
+                    <th>전월대비 증감률</th>
+                    <th>월평균 매출 건 수</th>
+                    <th>전월대비 증감률</th>
+                </tr>
+                <tr>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 만원</span></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 건</span></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
+                </tr>
+            </table>
+        </div>
+
         <!-- 2. 상권 분석 -->
         <div class="form-section">
-            <h2>2. 상권 분석</h2>
+
+            <h3>(3) 인구 분석</h3>
 
             <table>
                 <tr>
-                    <th>일평균 유동 인구</th>
-                    <th>최다 요일</th>
+                    <th>일평균 유동인구 수</th>
                     <th>최다 성별</th>
                     <th>최다 연령대</th>
+                    <th>최다 요일</th>
                 </tr>
                 <tr>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 명</span></td>
-                    <td class="numeric"><input type="text" class="long-input" id="item" placeholder="일요일"></td>
-                    <td class="numeric"><input type="text" class="long-input" id="item" placeholder="남성 / 여성"></td>
+                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
+                    <td class="numeric"><input type="text" class="long-input" id="item" placeholder="남성 / 여성"></td>                    
                     <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 대</span></td>
-                </tr>
-                <tr>
-                    <th>직장 인구</th>
-                    <th>직장 인구 평균 소득</th>
-                    <th>주거 인구</th>
-                    <th>주거 인구 평균소득</th>
-                </tr>
-                <tr>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 명</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 만원</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 명</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 만원</span></td>
+                    <td class="numeric"><input type="text" class="long-input" id="item" placeholder="일요일"></td> 
                 </tr>
             </table>
         </div><br>
