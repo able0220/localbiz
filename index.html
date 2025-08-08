@@ -292,21 +292,20 @@
                     <th>내용</th>
                 </tr>
                 <tr>
-                    <td>창업 회사명</td>
+                    <td>창업 기업명</td>
                     <td><input type="text" id="company" class="long-input" placeholder="예: (주)에이블"></td>
                 </tr>
                 <tr>
-                    <td>학번 / 이름</td>
+                    <td>학번 이름</td>
                     <td><input type="text" id="student" class="long-input" placeholder="예: 300719 송다윤, 380902 이영진"></td>
-                </tr>
-
-                <tr>
-                    <td>선택 업종</td>
-                    <td><input type="text" class="long-input" id="item" placeholder="예: 교육 콘텐츠"></td>
                 </tr>
                 <tr>
                     <td>위치</td>
-                    <td><input type="text" class="long-input" id="item" placeholder="예: 대전광역시 서구"></td>
+                    <td><input type="text" id="location" class="long-input" id="item" placeholder="예: 대전 서구 도안동"></td>
+                </tr>
+                <tr>
+                    <td>업종</td>
+                    <td><input type="text" id="industry" class="long-input" id="item1" placeholder="예: 교육 > 교육 지원 > 기타 교육지원 서비스업"></td>
                 </tr>
             </table>
         </div><br>
@@ -316,57 +315,23 @@
             <h3>(1) 업소 정보</h3>
             <table>
                 <tr>
-                    <th>업소수</th>
-                    <th>전월대비 증감률</th>
-                    <th>배후지</th>
-                    <th>전월대비 증감률</th>
+                    <th>항목</th>
+                    <th>월 평균 매출</th>
+                    <th>선택업종 업소수</th>
+                    <th>일 평균 유동인구</th>
+                    <th>유동인구 많은 요일</th>
+                    <th>유동인구 많은 시간대</th>
                 </tr>
                 <tr>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 개</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 개</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
-                </tr>
-            </table>
-
-            <h3>(2) 매출 정보</h3>
-            <table>
-                <tr>
-                    <th>월평균 매출액</th>
-                    <th>전월대비 증감률</th>
-                    <th>월평균 매출 건 수</th>
-                    <th>전월대비 증감률</th>
-                </tr>
-                <tr>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 만원</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 건</span></td>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
-                </tr>
-            </table>
-        </div>
-
-        <!-- 2. 상권 분석 -->
-        <div class="form-section">
-
-            <h3>(3) 인구 분석</h3>
-
-            <table>
-                <tr>
-                    <th>일평균 유동인구 수</th>
-                    <th>최다 성별</th>
-                    <th>최다 연령대</th>
-                    <th>최다 요일</th>
-                </tr>
-                <tr>
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> %</span></td>
-                    <td class="numeric"><input type="text" class="long-input" id="item" placeholder="남성 / 여성"></td>                    
-                    <td class="numeric"><input type="number" placeholder="숫자" class="short-input"><span> 대</span></td>
-                    <td class="numeric"><input type="text" class="long-input" id="item" placeholder="일요일"></td> 
+                    <td>값</td>
+                    <td class="numeric"><input type="number" id="avgSales" placeholder="" class="short-input"><span> 만원</span></td>
+                    <td class="numeric"><input type="number" id="storeCount" placeholder="" class="short-input"><span> 개</span></td>
+                    <td class="numeric"><input type="number" id="dailyFootTraffic" placeholder="" class="short-input"><span> 명</span></td>
+                    <td><input type="text" placeholder="" class="long-input" id="peakDay"></td>
+                    <td><input type="text" placeholder="" class="long-input" id="peakHour"></td>
                 </tr>
             </table>
         </div><br>
-
         <!-- 3. 상권분석 -->
         <div class="form-section">
             <h2>3. 분석 결과</h2>
@@ -424,77 +389,125 @@
                 row.parentNode.removeChild(row);
             }
 
-        function saveFormAsImage() {
-            const formSections = document.querySelectorAll(".form-section");
-            const target = document.createElement("div");
-            target.style.backgroundColor = "#ffffff";
-            target.style.padding = "30px";
-            target.style.width = "100%";
-            target.style.fontFamily = "'Nanum Gothic', sans-serif";
+function saveFormAsImage() {
+    const formSections = document.querySelectorAll(".form-section");
 
-            formSections.forEach(section => {
-                const cloned = section.cloneNode(true);
+    // 🔵 A4 비율 기반 컨테이너 생성
+    const target = document.createElement("div");
+    target.style.backgroundColor = "#ffffff";
+    target.style.padding = "40px";
+    target.style.width = "794px";          // A4 가로(px) = 21cm * 96dpi
+    target.style.minHeight = "1123px";     // A4 세로(px) = 29.7cm * 96dpi
+    target.style.fontFamily = "'Nanum Gothic', sans-serif";
+    target.style.boxSizing = "border-box";
 
-                // textarea → div
-                const textareas = cloned.querySelectorAll("textarea");
-                textareas.forEach(textarea => {
-                    const div = document.createElement("div");
-                    div.style.border = "1px solid #ccc";
-                    div.style.padding = "10px";
-                    div.style.minHeight = "150px";
-                    div.style.whiteSpace = "pre-wrap";
-                    div.style.fontSize = "14px";
-                    div.innerText = textarea.value;
-                    textarea.parentNode.replaceChild(div, textarea);
+    formSections.forEach(section => {
+        const cloned = section.cloneNode(true);
+
+        // textarea → div
+        const textareas = cloned.querySelectorAll("textarea");
+        textareas.forEach(textarea => {
+            const div = document.createElement("div");
+            div.style.border = "1px solid #ccc";
+            div.style.padding = "10px";
+            div.style.minHeight = "150px";
+            div.style.whiteSpace = "pre-wrap";
+            div.style.fontSize = "14px";
+            div.innerText = textarea.value;
+            textarea.parentNode.replaceChild(div, textarea);
+        });
+
+        // number input → span
+        const numberInputs = cloned.querySelectorAll('input[type="number"]');
+        numberInputs.forEach(input => {
+            const span = document.createElement("span");
+            const value = input.value.trim();
+            span.innerText = value ? parseInt(value).toLocaleString() : '';
+            span.style.fontSize = "14px";
+            input.parentNode.replaceChild(span, input);
+        });
+
+        // text input → span
+        const textInputs = cloned.querySelectorAll('input[type="text"]');
+        textInputs.forEach(input => {
+            const span = document.createElement("span");
+            span.innerText = input.value.trim();
+            span.style.fontSize = "14px";
+            input.parentNode.replaceChild(span, input);
+        });
+
+        // "관리" 열 제거
+        cloned.querySelectorAll("table").forEach(table => {
+            const thead = table.querySelector("thead");
+            const tbody = table.querySelector("tbody");
+
+            if (thead) {
+                const ths = thead.querySelectorAll("th");
+                ths.forEach((th, index) => {
+                    if (th.innerText.trim() === "관리") {
+                        th.remove();
+                        if (tbody) {
+                            tbody.querySelectorAll("tr").forEach(row => {
+                                const tds = row.querySelectorAll("td");
+                                if (tds[index]) tds[index].remove();
+                            });
+                        }
+                    }
                 });
+            }
+        });
 
-                // input[type=number] → span (with comma formatting)
-                const numberInputs = cloned.querySelectorAll('input[type="number"]');
-                numberInputs.forEach(input => {
-                    const span = document.createElement("span");
-                    const value = input.value.trim();
-                    span.innerText = value ? parseInt(value).toLocaleString() : '';
-                    span.style.fontSize = "14px";
-                    input.parentNode.replaceChild(span, input);
-                });
-
-                // input[type=text] → span
-                const textInputs = cloned.querySelectorAll('input[type="text"]');
-                textInputs.forEach(input => {
-                    const span = document.createElement("span");
-                    span.innerText = input.value.trim();
-                    span.style.fontSize = "14px";
-                    input.parentNode.replaceChild(span, input);
-                });
-
-                // ✅ "항목 추가" 버튼은 없음 → 생략 가능
-
-                target.appendChild(cloned);
-            });
-
-            document.body.appendChild(target);
-            window.scrollTo(0, 0);
-
-            html2canvas(target, {
-                backgroundColor: '#ffffff',
-                useCORS: true,
-                scale: 2
-            }).then(canvas => {
-                const link = document.createElement("a");
-                link.href = canvas.toDataURL("image/png");
-                link.download = "상권분석보고서.png";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                document.body.removeChild(target);
-            }).catch(err => {
-                console.error("html2canvas 에러:", err);
-                alert("이미지 저장 중 문제가 발생했습니다.");
-            });
+        // "항목 추가" 버튼 제거
+        const addRowBtn = cloned.querySelector('button[onclick="addRow()"]');
+        if (addRowBtn) {
+            addRowBtn.remove();
         }
 
+        target.appendChild(cloned);
+    });
 
+    // 이미지로 캡처 및 저장
+    document.body.appendChild(target);
+    window.scrollTo(0, 0);
 
+    html2canvas(target, {
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        scale: 2
+    }).then(canvas => {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+        if (isIOS) {
+            // 🔵 iOS: 새 탭에 이미지 띄우기
+            const dataURL = canvas.toDataURL("image/png");
+            const newTab = window.open();
+            if (newTab) {
+                newTab.document.body.style.margin = '0';
+                const img = newTab.document.createElement("img");
+                img.src = dataURL;
+                img.style.maxWidth = "100%";
+                img.style.height = "auto";
+                newTab.document.body.appendChild(img);
+            } else {
+                alert("팝업 차단 설정을 해제해주세요.");
+            }
+        } else {
+            // 🔵 PC/안드로이드: 자동 다운로드
+            const link = document.createElement("a");
+            link.href = canvas.toDataURL("image/png");
+            link.download = "상권분석 보고서.png";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        document.body.removeChild(target);
+    }).catch(err => {
+        console.error("html2canvas 에러:", err);
+        alert("이미지 저장 중 문제가 발생했습니다.");
+        document.body.removeChild(target);
+    });
+}
 
 
         </script>
